@@ -1,8 +1,0 @@
-vendor_name = ModelSim
-source_file = 1, C:/Users/toots/OneDrive/Desktop/FPGA BOARD/FPGA-Board-Lab/2pinAndTest/2pinAndTest.bdf
-source_file = 1, C:/Users/toots/OneDrive/Desktop/FPGA BOARD/FPGA-Board-Lab/2pinAndTest/Waveform.vwf
-source_file = 1, C:/Users/toots/OneDrive/Desktop/FPGA BOARD/FPGA-Board-Lab/2pinAndTest/db/2pinAndTest.cbx.xml
-design_name = \2pinAndTest 
-instance = comp, \SW[0]~I , SW[0], \2pinAndTest , 1
-instance = comp, \SW[1]~I , SW[1], \2pinAndTest , 1
-instance = comp, \LEDR[0]~I , LEDR[0], \2pinAndTest , 1
