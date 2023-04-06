@@ -21,7 +21,7 @@ applicable agreement for further details.
 (header "graphic" (version "1.4"))
 (pin
 	(input)
-	(rect 224 160 392 176)
+	(rect 216 160 384 176)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
 	(text "SW[0]" (rect 5 0 36 12)(font "Arial" ))
 	(pt 168 8)
@@ -37,7 +37,7 @@ applicable agreement for further details.
 )
 (pin
 	(input)
-	(rect 224 176 392 192)
+	(rect 216 176 384 192)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
 	(text "SW[1]" (rect 5 0 36 12)(font "Arial" ))
 	(pt 168 8)
@@ -104,10 +104,10 @@ applicable agreement for further details.
 	(pt 704 176)
 )
 (connector
+	(pt 384 168)
 	(pt 536 168)
-	(pt 392 168)
 )
 (connector
+	(pt 384 184)
 	(pt 536 184)
-	(pt 392 184)
 )
