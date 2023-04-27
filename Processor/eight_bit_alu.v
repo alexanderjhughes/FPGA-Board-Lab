@@ -1,14 +1,14 @@
 module eight_bit_alu(
-		input [7:0] A,B,  // ALU 8-bit Inputs                 
+		input [7:0] A,B,  // ALU 8-bit Inputs
+		input latch,               
 		input [3:0] ALU_Sel,// ALU Selection
 		output [7:0] ALU_Out, // ALU 8-bit Output
-		output CarryOut // Carry Out Flag
+		output CarryOut, // Carry Out Flag,
+		output updateReg
 );
 reg [8:0] ALU_Result;
 // reg [3:0] REG_Result = 2'b10;
 // wire [8:0] tmp;
-assign ALU_Out = ALU_Result[7:0]; // ALU out
-assign CarryOut = ALU_Result[8]; // Carryout flag
 always @(*)
 begin
 	case(ALU_Sel)
@@ -19,7 +19,7 @@ begin
 			ALU_Result = A - B;
 		end
 		4'b0010: begin // Multiplication
-			ALU_Result = 8'b0000_1111 * 8'b0000_0111;
+			ALU_Result = A * B;
 		end
 		4'b0011: begin // Division
 			ALU_Result = A/B;
@@ -36,8 +36,12 @@ begin
 		4'b0111: begin // B sqaured
 			ALU_Result = B * B;
 		end
-		default: ALU_Result = 8'b1000_0000; 
+		default: ALU_Result = 8'bZZZZ_ZZZZ; 
 	endcase
 end
+
+assign ALU_Out = (latch) ? ALU_Result[7:0] : 8'bZZZZ_ZZZZ; // ALU out
+assign CarryOut = (latch) ? ALU_Result[8] : 1'bZ; // Carryout flag
+assign updateReg = (latch) ? 1'b1 : 1'b0; // Update register flag
 
 endmodule

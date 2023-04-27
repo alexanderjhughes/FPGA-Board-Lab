@@ -40,7 +40,7 @@ always @(*) begin
 			  8'b00000001: instruction = {ldb, reg2, nullReg};     // {1010, 01, 00} = 10100100 // 1010 01 00
 			  8'b00000010: instruction = {mul, reg1, reg2};        // {0010, 00, 01} = 00100001 // 0010 00 01
 			  8'b00000011: instruction = {ldl, reg1, nullReg};
-			  8'b00000100: instruction = {shl, reg1, nullReg};
+			  8'b00000100: instruction = {shr, reg1, nullReg};
 			  8'b00000101: instruction = {ldl, reg1, nullReg};
 			  8'b00000111: instruction = {out, reg1, nullReg};
 			  default:  instruction = 8'bZZZZZZZZ;
@@ -48,7 +48,7 @@ always @(*) begin
 		2'b01: begin case (address)
 			  8'b00000000: instruction = {lda, reg1, nullReg};
 			  8'b00000001: instruction = {out, reg1, nullReg};
-			  default:  instruction = {lda, reg1, nullReg};
+			  default:  instruction = 8'bZZZZZZZZ;
 		endcase end
 		2'b10: begin case (address)
 			  8'b00000000: instruction = {lda, reg1, nullReg};
@@ -56,7 +56,7 @@ always @(*) begin
 			  8'b00000010: instruction = {mul, reg1, reg2};
 			  8'b00000011: instruction = {shl, reg1, nullReg};
 			  8'b00000100: instruction = {out, reg1, nullReg};
-			  default:  instruction = {lda, reg1, nullReg};
+			  default:  instruction = 8'bZZZZZZZZ;
 		endcase end
 		2'b11: begin case (address)
 			  8'b00000000: instruction = {lda, reg1, nullReg};
@@ -64,7 +64,7 @@ always @(*) begin
 			  8'b00000010: instruction = {mul, reg1, reg2};
 			  8'b00000011: instruction = {shl, reg1, nullReg};
 			  8'b00000100: instruction = {out, reg1, nullReg};
-			  default:  instruction = {lda, reg1, nullReg};
+			  default:  instruction = 8'bZZZZZZZZ;
 		endcase end
 	endcase
 end

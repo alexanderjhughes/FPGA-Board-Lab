@@ -47,10 +47,13 @@ output [6:0] HEX7;
 
 wire clk = CLOCK_50;
 wire one_shot_clock;
-wire reset = ~KEY[0];
-wire latch = ~KEY[1];
+wire latch = ~KEY[0];
+wire reset = ~KEY[1];
 wire enable = ~KEY[2];
 wire button = ~KEY[3];
+wire a_enable = 1'b0;
+wire b_enable = 1'b0;
+wire o_enable = 1'b0;
 
 reg latch_a_reg = 0;
 reg latch_b_reg = 0;
@@ -58,14 +61,11 @@ reg latch_o_reg = 0;
 reg latch_alu = 0;
 
 wire [7:0] i_bus;
+wire [7:0] w_bus;
 wire [7:0] a_bus;
-wire [7:0] b_bus;
-wire [7:0] o_bus;
 
 reg [7:0] i_drive_r;
-reg [7:0] a_drive_r;
-reg [7:0] b_drive_r;
-reg [7:0] o_drive_r;
+reg [7:0] w_drive_r;
 
 reg [7:0] alu_drive_a;
 reg [7:0] alu_drive_b;
@@ -84,6 +84,8 @@ wire [1:0] program_selection = SW[17:16];
 reg [7:0] instruction;
 reg [3:0] alu_instruction;
 
+wire updateReg;
+
 // Components
 
 clock_pulse clock_pulse_inst0(
@@ -92,43 +94,50 @@ clock_pulse clock_pulse_inst0(
     .pulse(one_shot_clock)
 );
 
-
-
-
 always @(posedge one_shot_clock) begin
+    if (reset) begin
+        latch_alu = 1'b0;
+        w_drive_r = 8'bZZZZZZZZ;
+        alu_instruction = 8'bZZZZ_ZZZZ;
+    end
     if (latch) begin
         alu_drive_a = instruction[3:2] == 2'b00 ? a_reg : b_reg;
         alu_drive_b = instruction[1:0] == 2'b00 ? a_reg : b_reg;
         case (instruction[7:4]) // 1001 00 00
             4'b0000: begin // add
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0000;
             end
             4'b0001: begin // subtract
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0001;
             end
             4'b0010: begin // multiply // 0010 00 01
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0010;
             end
             4'b0011: begin // divide
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0011;
             end
             4'b0100: begin // shift left
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0100;
             end
             4'b0101: begin // shift right
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0101;
             end
             4'b0110: begin // square a
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0110;
             end
             4'b0111: begin // square b
+                latch_alu = 1'b1;
                 alu_instruction = 4'b0111;
             end
             4'b1000: begin // store alu
-                case (instruction[3:2])
-                    2'b00: a_drive_r = alu_drive_o;
-                    2'b01: b_drive_r = alu_drive_o;
-                endcase
+                w_drive_r = a_bus;
                 latch_a_reg = instruction[3:2] == 2'b00 ? 1'b1 : 1'b0;
                 latch_b_reg = instruction[3:2] == 2'b01 ? 1'b1 : 1'b0;
                 latch_o_reg = 1'b0;
@@ -136,10 +145,7 @@ always @(posedge one_shot_clock) begin
                 alu_drive_b = instruction[1:0] == 2'b00 ? a_reg : b_reg;
             end
             4'b1001: begin // load a
-                case (instruction[3:2]) // 1001 00 00
-                    2'b00: a_drive_r = a;
-                    2'b01: b_drive_r = a;
-                endcase
+                w_drive_r = a;
                 latch_a_reg = instruction[3:2] == 2'b00 ? 1'b1 : 1'b0;
                 latch_b_reg = instruction[3:2] == 2'b01 ? 1'b1 : 1'b0;
                 latch_o_reg = 1'b0;
@@ -147,13 +153,7 @@ always @(posedge one_shot_clock) begin
                 alu_drive_b = instruction[1:0] == 2'b00 ? a_reg : b_reg;
             end
             4'b1010: begin // load b
-                // case (instruction[3:2]) // 1010 01 00
-                //     2'b00: a_drive_r = b;
-                //     2'b01: b_drive_r = b;
-                // endcase
-                // latch_a_reg = instruction[3:2] == 2'b00 ? 1'b1 : 1'b0;
-                // latch_b_reg = instruction[3:2] == 2'b01 ? 1'b1 : 1'b0;
-                b_drive_r = b;
+                w_drive_r = b;
                 latch_a_reg = 1'b0;
                 latch_b_reg = 1'b1;
                 latch_o_reg = 1'b0;
@@ -161,14 +161,28 @@ always @(posedge one_shot_clock) begin
                 alu_drive_b = instruction[1:0] == 2'b00 ? a_reg : b_reg;
             end
             4'b1011: begin // output
-                o_drive_r = instruction[3:2] == 2'b00 ? a_reg : b_reg;
+                w_drive_r = instruction[3:2] == 2'b00 ? a_reg : b_reg;
                 latch_a_reg = 1'b0;
                 latch_b_reg = 1'b0;
                 latch_o_reg = 1'b1;
             end
+            default: begin
+                latch_alu = 1'b0;
+                w_drive_r = 8'bZZZZ_ZZZZ;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
+                alu_instruction = 8'bZZZZ_ZZZZ;
+            end
         endcase
     end
 end
+
+// always @(*) begin
+//     if (enableReg) begin
+//         latch_alu = 1'b0;
+//     end
+// end
 
 eight_bit_register intruction_register(
 	.clk(one_shot_clock),
@@ -181,28 +195,28 @@ eight_bit_register intruction_register(
 
 eight_bit_register a_register(
 	.clk(one_shot_clock),
-	.enable(enable),
+	.enable(a_enable),
     .latch(latch_a_reg),
 	.reset(reset),
-	.DATA(a_bus),
+	.DATA(w_bus),
 	.REG_OUT(a_reg)
 );
 
 eight_bit_register b_register(
 	.clk(one_shot_clock),
-	.enable(enable),
+	.enable(b_enable),
     .latch(latch_b_reg),
 	.reset(reset),
-	.DATA(b_bus),
+	.DATA(w_bus),
 	.REG_OUT(b_reg)
 );
 
 eight_bit_register out_register(
 	.clk(one_shot_clock),
-	.enable(enable),
+	.enable(o_enable),
     .latch(latch_o_reg),
 	.reset(reset),
-	.DATA(o_bus),
+	.DATA(w_bus),
 	.REG_OUT(out_reg)
 );
 
@@ -215,29 +229,29 @@ seven_seg seven_seg_inst1(
     .hex(HEX7)
 );
 seven_seg seven_seg_inst2(
-    .in(alu_drive_o[7:4]),
+    .in(w_bus[7:4]),
     .hex(HEX5)
 );
 seven_seg seven_seg_inst3(
-    .in(alu_drive_o[3:0]),
+    .in(w_bus[3:0]),
     .hex(HEX4)
 );
 
 seven_seg seven_seg_inst4(
-    .in(b_reg[7:4]),
+    .in(a_bus[7:4]),
     .hex(HEX3)
 );
 seven_seg seven_seg_inst5(
-    .in(b_reg[3:0]),
+    .in(a_bus[3:0]),
     .hex(HEX2)
 );
 
 seven_seg seven_seg_inst6(
-    .in(a_reg[7:4]),
+    .in(out_reg[7:4]),
     .hex(HEX1)
 );
 seven_seg seven_seg_inst7(
-    .in(a_reg[3:0]),
+    .in(out_reg[3:0]),
     .hex(HEX0)
 );
 
@@ -255,23 +269,23 @@ eight_bit_rom rom(
 );
 
 eight_bit_alu alu(
-    .A(alu_drive_a),
-    .B(alu_drive_b),
+    .A(a_reg),
+    .B(b_reg),
+    .latch(latch_alu),
     .ALU_Sel(alu_instruction),
-    .ALU_Out(alu_drive_o),
-    .CarryOut()
+    .ALU_Out(a_bus),
+    .CarryOut(),
+    .updateReg(updateReg)
 );
 
 // logic
 
 // assign LEDG = alu_drive_o;
-assign LEDG = instruction;
+assign LEDG = a_bus;
 assign LEDR[17:16] = program_selection;
-assign LEDR[15:8] = out_reg;
+assign LEDR[15:8] = b_reg;
 assign LEDR[7:0] = a_reg;
 assign i_bus = (latch) ? i_drive_r : 8'bZZZZZZZZ;
-assign a_bus = (latch_a_reg) ? a_drive_r : 8'bZZZZZZZZ;
-assign b_bus = (latch_b_reg) ? b_drive_r : 8'bZZZZZZZZ;
-assign o_bus = (latch_o_reg) ? o_drive_r : 8'bZZZZZZZZ;
+assign w_bus = (latch) ? w_drive_r : 8'bZZZZZZZZ;
 
 endmodule
