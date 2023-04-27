@@ -62,7 +62,7 @@ reg latch_alu = 0;
 
 wire [7:0] i_bus;
 wire [7:0] w_bus;
-wire [7:0] a_bus;
+wire [7:0] alu_bus;
 
 reg [7:0] i_drive_r;
 reg [7:0] w_drive_r;
@@ -101,8 +101,6 @@ always @(posedge one_shot_clock) begin
         alu_instruction = 8'bZZZZ_ZZZZ;
     end
     if (latch) begin
-        alu_drive_a = instruction[3:2] == 2'b00 ? a_reg : b_reg;
-        alu_drive_b = instruction[1:0] == 2'b00 ? a_reg : b_reg;
         case (instruction[7:4]) // 1001 00 00
             4'b0000: begin // add
                 latch_alu = 1'b1;
@@ -137,20 +135,16 @@ always @(posedge one_shot_clock) begin
                 alu_instruction = 4'b0111;
             end
             4'b1000: begin // store alu
-                w_drive_r = a_bus;
+                w_drive_r = alu_bus;
                 latch_a_reg = instruction[3:2] == 2'b00 ? 1'b1 : 1'b0;
                 latch_b_reg = instruction[3:2] == 2'b01 ? 1'b1 : 1'b0;
                 latch_o_reg = 1'b0;
-                alu_drive_a = instruction[3:2] == 2'b00 ? a_reg : b_reg;
-                alu_drive_b = instruction[1:0] == 2'b00 ? a_reg : b_reg;
             end
             4'b1001: begin // load a
                 w_drive_r = a;
                 latch_a_reg = instruction[3:2] == 2'b00 ? 1'b1 : 1'b0;
                 latch_b_reg = instruction[3:2] == 2'b01 ? 1'b1 : 1'b0;
                 latch_o_reg = 1'b0;
-                alu_drive_a = instruction[3:2] == 2'b00 ? a_reg : b_reg;
-                alu_drive_b = instruction[1:0] == 2'b00 ? a_reg : b_reg;
             end
             4'b1010: begin // load b
                 w_drive_r = b;
@@ -238,11 +232,11 @@ seven_seg seven_seg_inst3(
 );
 
 seven_seg seven_seg_inst4(
-    .in(a_bus[7:4]),
+    .in(alu_bus[7:4]),
     .hex(HEX3)
 );
 seven_seg seven_seg_inst5(
-    .in(a_bus[3:0]),
+    .in(alu_bus[3:0]),
     .hex(HEX2)
 );
 
@@ -273,15 +267,15 @@ eight_bit_alu alu(
     .B(b_reg),
     .latch(latch_alu),
     .ALU_Sel(alu_instruction),
-    .ALU_Out(a_bus),
-    .CarryOut(),
+    .ALU_Out(alu_bus),
+    .CarryOut(LEDG[8]),
     .updateReg(updateReg)
 );
 
 // logic
 
 // assign LEDG = alu_drive_o;
-assign LEDG = a_bus;
+assign LEDG[7:0] = instruction;
 assign LEDR[17:16] = program_selection;
 assign LEDR[15:8] = b_reg;
 assign LEDR[7:0] = a_reg;

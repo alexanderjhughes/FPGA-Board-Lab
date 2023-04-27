@@ -167,4 +167,5 @@ set_location_assignment PIN_L6 -to HEX7[3]
 set_location_assignment PIN_L7 -to HEX7[4]
 set_location_assignment PIN_P9 -to HEX7[5]
 set_location_assignment PIN_N9 -to HEX7[6]
+set_location_assignment PIN_Y12 -to LEDG[8]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

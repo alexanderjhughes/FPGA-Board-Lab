@@ -1,26 +1,26 @@
-# Copyright (C) 1991-2013 Altera Corporation
-# Your use of Altera Corporation's design tools, logic functions 
-# and other software and tools, and its AMPP partner logic 
-# functions, and any output files from any of the foregoing 
-# (including device programming or simulation files), and any 
-# associated documentation or information are expressly subject 
-# to the terms and conditions of the Altera Program License 
-# Subscription Agreement, Altera MegaCore Function License 
-# Agreement, or other applicable license agreement, including, 
-# without limitation, that your use is for the sole purpose of 
-# programming logic devices manufactured by Altera and sold by 
-# Altera or its authorized distributors.  Please refer to the 
-# applicable agreement for further details.
-
-# Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-# File: C:\Users\toots\OneDrive\Desktop\PINASSIGNMENTSFORREAL.csv
-# Generated on: Wed Apr 26 17:28:54 2023
-
-# Note: The column header names should not be changed if you wish to import this .csv file into the Quartus II software.
-
+# Copyright (C) 1991-2013 Altera Corporation,,,,,,,,,
+# Your use of Altera Corporation's design tools, logic functions ,,,,,,,,
+# and other software and tools, and its AMPP partner logic ,,,,,,,,
+# functions, and any output files from any of the foregoing ,,,,,,,,
+# (including device programming or simulation files), and any ,,,,,,,,
+# associated documentation or information are expressly subject ,,,,,,,,,
+# to the terms and conditions of the Altera Program License ,,,,,,,,,
+# Subscription Agreement, Altera MegaCore Function License ,,,,,,,,
+# Agreement, or other applicable license agreement, including, ,,,,,,
+# without limitation, that your use is for the sole purpose of ,,,,,,,,
+# programming logic devices manufactured by Altera and sold by ,,,,,,,,,
+# Altera or its authorized distributors.  Please refer to the ,,,,,,,,,
+# applicable agreement for further details.,,,,,,,,,
+,,,,,,,,,
+# Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition,,,,,,,,,
+# File: C:\Users\toots\OneDrive\Desktop\PINASSIGNMENTSFORREAL.csv,,,,,,,,,
+# Generated on: Wed Apr 26 17:28:54 2023,,,,,,,,,
+,,,,,,,,,
+# Note: The column header names should not be changed if you wish to import this .csv file into the Quartus II software.,,,,,,,,,
+,,,,,,,,,
 To,Direction,Location,I/O Bank,VREF Group,Fitter Location,I/O Standard,Reserved,Current Strength,Differential Pair
 CLOCK_50,Input,PIN_N2,2,B2_N1,PIN_D13,,,,
-LEDG[0],Output,PIN_AE22,7,B7_N0,PIN_Y16,,,,
+,,,,,,,,,
 LEDR[7],Output,PIN_AC21,7,B7_N0,PIN_AC21,,,,
 LEDR[6],Output,PIN_AD21,7,B7_N0,PIN_AD21,,,,
 LEDR[5],Output,PIN_AD23,7,B7_N0,PIN_AD23,,,,
@@ -51,7 +51,7 @@ LEDR[11],Unknown,PIN_AC14,7,B7_N1,,,,,
 LEDR[10],Unknown,PIN_AA13,7,B7_N1,,,,,
 LEDR[9],Unknown,PIN_Y13,7,B7_N1,,,,,
 LEDR[8],Unknown,PIN_AA14,7,B7_N1,,,,,
-LEDG[7],Unknown,PIN_Y18,7,B7_N0,,,,,
+,,,,,,,,,
 KEY[0],Unknown,PIN_G26,5,B5_N0,,,,,
 KEY[1],Unknown,PIN_N23,5,B5_N1,,,,,
 KEY[2],Unknown,PIN_P23,6,B6_N0,,,,,
@@ -62,12 +62,14 @@ LEDR[14],Unknown,PIN_AF13,8,B8_N0,,,,,
 LEDR[15],Unknown,PIN_AE13,8,B8_N0,,,,,
 LEDR[16],Unknown,PIN_AE12,8,B8_N0,,,,,
 LEDR[17],Unknown,PIN_AD12,8,B8_N0,,,,,
+LEDG[0],Output,PIN_AE22,7,B7_N0,PIN_Y16,,,,
 LEDG[1],Unknown,PIN_AF22,7,B7_N0,,,,,
 LEDG[2],Unknown,PIN_W19,7,B7_N0,,,,,
 LEDG[3],Unknown,PIN_V18,7,B7_N0,,,,,
 LEDG[4],Unknown,PIN_U18,7,B7_N0,,,,,
 LEDG[5],Unknown,PIN_U17,7,B7_N0,,,,,
 LEDG[6],Unknown,PIN_AA20,7,B7_N0,,,,,
+LEDG[7],Unknown,PIN_Y18,7,B7_N0,,,,,
 HEX0[0],Unknown,PIN_AF10,8,B8_N0,,,,,
 HEX0[1],Unknown,PIN_AB12,8,B8_N0,,,,,
 HEX0[2],Unknown,PIN_AC12,8,B8_N0,,,,,
