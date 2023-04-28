@@ -52,7 +52,16 @@ always @(*) begin
 			  8'b00000001: instruction = {out, reg1, nullReg};
 			  default:  instruction = 8'bZZZZZZZZ;
 		endcase end
-
+		2'b10:  begin case (address)
+			  8'b00000000: instruction = {lda, reg1, nullReg};     // {1001, 00, 00} = 10010000 
+			  8'b00000001: instruction = {ldb, reg2, nullReg};     // {1010, 01, 00} = 10100100 // 1010 01 00
+			  8'b00000010: instruction = {sqa, reg1, nullReg};     // {0010, 00, 01} = 00100001 // 0010 00 01
+			  8'b00000011: instruction = {push, reg1, nullReg};
+			  8'b00000100: instruction = {mul, reg1, reg2};
+			  8'b00000101: instruction = {push, reg1, nullReg};
+			  8'b00000111: instruction = {out, reg1, nullReg};
+			  default:  instruction = 8'bZZZZZZZZ;
+		endcase end
 		2'b11: begin case (address)
 			  8'b00000000: instruction = {lda, reg1, nullReg};
 			  8'b00000001: instruction = {ldb, reg2, nullReg};

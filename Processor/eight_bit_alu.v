@@ -36,6 +36,12 @@ begin
 		4'b0111: begin // B sqaured
 			ALU_Result = B * B;
 		end
+		4'b1000: begin // Logical shift left
+			ALU_Result = B<<1;
+		end
+		4'b1001: begin // Logical shift right
+			ALU_Result = B>>1;
+		end
 		default: ALU_Result = 8'bZZZZ_ZZZZ; 
 	endcase
 end
