@@ -49,7 +49,7 @@ always @(*) begin
 		endcase end
 		2'b01: begin case (address)
 			  8'b00000000: instruction = {lda, reg1, nullReg};
-			  8'b00000001: instruction = {out, reg1, nullReg};
+			  8'b00000111: instruction = {out, reg1, nullReg};
 			  default:  instruction = 8'bZZZZZZZZ;
 		endcase end
 		2'b10:  begin case (address)
@@ -67,11 +67,15 @@ always @(*) begin
 			  8'b00000001: instruction = {ldb, reg2, nullReg};
 			  8'b00000010: instruction = {sqa, reg1, nullReg};
 			  8'b00000011: instruction = {push, reg1, nullReg};
-			  8'b00000100: instruction = {sqa, reg2, nullReg};
-			  8'b00000101: instruction = {push, reg2, nullReg};
-			  8'b00000111: instruction = {add, reg1, reg2};
-			  8'b00001000: instruction = {push, reg1, nullReg};
-			  8'b00001001: instruction = {out, reg1, nullReg};
+			  8'b00000100: instruction = {shr, reg1, nullReg};
+			  8'b00000101: instruction = {push, reg1, nullReg};
+			  8'b00000110: instruction = {sqb, reg2, nullReg};
+			  8'b00000111: instruction = {push, reg2, nullReg};
+			  8'b00001000: instruction = {bshr, reg2, nullReg};
+			  8'b00001001: instruction = {push, reg2, nullReg};
+			  8'b00001010: instruction = {sub, reg1, reg2};
+			  8'b00001011: instruction = {push, reg1, nullReg};
+			  8'b00001100: instruction = {out, reg1, nullReg};
 			  default:  instruction = 8'bZZZZZZZZ;
 		endcase end
 	endcase
@@ -90,5 +94,12 @@ end
 // add a, b
 // push a
 // out a
+
+//   8'b00000001: instruction = {ldb, reg2, nullReg};
+//   8'b00000010: instruction = {add, reg1, reg2};
+//   8'b00000011: instruction = {push, reg1, nullReg};
+//   8'b00000100: instruction = {shr, reg1, nullReg};
+//   8'b00000101: instruction = {push, reg1, nullReg};
+//   8'b00000110: instruction = {out, reg1, nullReg};
 
 endmodule

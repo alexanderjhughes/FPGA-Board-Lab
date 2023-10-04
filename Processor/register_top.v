@@ -104,34 +104,58 @@ always @(posedge one_shot_clock) begin
         case (instruction[7:4]) // 1001 00 00
             4'b0000: begin // add
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0000;
             end
             4'b0001: begin // subtract
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0001;
             end
             4'b0010: begin // multiply // 0010 00 01
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0010;
             end
             4'b0011: begin // divide
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0011;
             end
             4'b0100: begin // shift left
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0100;
             end
             4'b0101: begin // shift right
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0101;
             end
             4'b0110: begin // square a
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0110;
             end
             4'b0111: begin // square b
                 latch_alu = 1'b1;
+                latch_a_reg = 1'b0;
+                latch_b_reg = 1'b0;
+                latch_o_reg = 1'b0;
                 alu_instruction = 4'b0111;
             end
             4'b1000: begin // store alu
@@ -250,7 +274,7 @@ seven_seg seven_seg_inst7(
 );
 
 program_counter program_counter_inst0(
-    .address(i_bus),
+    .address(i_drive_r),
     .enable(latch),
     .reset(reset),
     .clk(one_shot_clock)
@@ -279,7 +303,7 @@ assign LEDG[7:0] = instruction;
 assign LEDR[17:16] = program_selection;
 assign LEDR[15:8] = b_reg;
 assign LEDR[7:0] = a_reg;
-// assign i_bus = (latch) ? i_drive_r : 8'bZZZZZZZZ;
+assign i_bus = (latch) ? i_drive_r : 8'bZZZZZZZZ;
 assign w_bus = (latch) ? w_drive_r : 8'bZZZZZZZZ;
 
 endmodule
