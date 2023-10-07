@@ -7,12 +7,18 @@ module eight_bit_control_unit(
 	input [7:0] b_reg,
 	input [7:0] out_reg,
 	input [7:0] instruction,
+	output reg [1:0] enable_alu,
+	output reg[1:0] enable_reg,
+	output reg[1:0] enable_out,
     output reg [7:0] a_out,
     output reg [7:0] b_out,
     output reg [7:0] o_out,
-    output reg latch_a,
-    output reg latch_b,
-    output reg latch_out,
+    output reg latch_a_reg,
+    output reg latch_b_reg,
+    output reg latch_o_reg,
+    output reg [7:0] a_drive_r,
+    output reg [7:0] b_drive_r,
+    output reg [7:0] o_drive_r,
 	output reg [3:0] instruction_out
 );
 
