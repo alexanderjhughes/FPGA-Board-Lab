@@ -48,10 +48,10 @@ output [6:0] HEX7;
 wire clk = CLOCK_50;
 wire one_shot_clock_latch;
 wire one_shot_clock_reset;
-wire latch = SW[16];
-wire reset = SW[17];
+wire latch = SW[16]; //start program
+wire reset = SW[17]; //restart program
 wire enable = ~KEY[2];
-wire button = ~KEY[3];
+wire button = ~KEY[3]; //pulse - go to next instruction
 wire a_enable = 1'b0;
 wire b_enable = 1'b0;
 wire o_enable = 1'b0;
@@ -80,7 +80,8 @@ wire [7:0] out_reg;
 wire [7:0] a = SW[7:0];
 wire [7:0] b = SW[15:8];
 
-wire [1:0] program_selection = 2'b00;//SW[17:16];
+//wire [1:0] program_selection = 2'b00; //default area of rectangle
+wire [1:0] program_selection = SW[1:0];
 
 wire [7:0] instruction;
 reg [3:0] alu_instruction;
