@@ -80,8 +80,8 @@ wire [7:0] out_reg;
 wire [7:0] a = SW[7:0];
 wire [7:0] b = SW[15:8];
 
-//wire [1:0] program_selection = 2'b00; //default area of rectangle
-wire [1:0] program_selection = SW[1:0];
+wire [1:0] program_selection = 2'b00; //default area of rectangle
+//wire [1:0] program_selection = SW[1:0];
 
 wire [7:0] instruction;
 reg [3:0] alu_instruction;

@@ -49,7 +49,12 @@ always @(*) begin
 		endcase end
 		2'b01: begin case (address)
 			  8'b00000000: instruction = {lda, reg1, nullReg};
-			  8'b00000111: instruction = {out, reg1, nullReg};
+			  8'b00000001: instruction = {ldb, reg2, nullReg};
+			  8'b00000010: instruction = {add, reg1, reg2};
+			  8'b00000011: instruction = {push, reg1, nullReg};
+			  8'b00000100: instruction = {shr, reg1, nullReg};
+			  8'b00000101: instruction = {push, reg1, nullReg};
+			  8'b00000110: instruction = {out, reg1, nullReg};
 			  default:  instruction = 8'bZZZZZZZZ;
 		endcase end
 		2'b10:  begin case (address)
