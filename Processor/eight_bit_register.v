@@ -7,16 +7,6 @@ module eight_bit_register(
     output [7:0] REG_OUT
 );
 
-
-// make an instance of the eight_bit_register module called reg0
-// eight_bit_register eight_bit_register_inst0(
-// 	.clk(clk),
-// 	.enable(enable),
-// 	.reset(reset),
-// 	.DATA(data_in),
-// 	.REG_OUT(data_out)
-// );
-
 reg [7:0] r;// = 8'b0;
 
 always @(posedge clk) begin

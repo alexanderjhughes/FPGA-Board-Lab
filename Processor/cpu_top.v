@@ -1,4 +1,4 @@
-module register_top(
+module cpu_top(
     // Clocks
     CLOCK_50,
 
@@ -50,10 +50,10 @@ wire one_shot_clock;
 wire latch = ~KEY[0];
 wire reset = ~KEY[1];
 wire enable = ~KEY[2];
-wire button = ~KEY[3];
-wire a_enable = 1'b0;
-wire b_enable = 1'b0;
-wire o_enable = 1'b0;
+wire pulse = ~KEY[3];
+wire a_enable = 1'b0; // not used atm
+wire b_enable = 1'b0; // not used atm
+wire o_enable = 1'b0; // not used atm
 
 reg latch_a_reg = 0;
 reg latch_b_reg = 0;
@@ -84,13 +84,11 @@ wire [1:0] program_selection = SW[17:16];
 reg [7:0] instruction;
 reg [3:0] alu_instruction;
 
-wire updateReg;
-
 // Components
 
 clock_pulse clock_pulse_inst0(
     .clk(clk),
-    .btn(button),
+    .btn(pulse),
     .pulse(one_shot_clock)
 );
 
@@ -292,8 +290,7 @@ eight_bit_alu alu(
     .latch(latch_alu),
     .ALU_Sel(alu_instruction),
     .ALU_Out(alu_bus),
-    .CarryOut(LEDG[8]),
-    .updateReg(updateReg)
+    .CarryOut(LEDG[8])
 );
 
 // logic

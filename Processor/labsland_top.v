@@ -50,11 +50,11 @@ wire one_shot_clock_latch;
 wire one_shot_clock_reset;
 wire latch = SW[16]; //start program
 wire reset = SW[17]; //restart program
-wire enable = ~KEY[2];
-wire button = ~KEY[3]; //pulse - go to next instruction
-wire a_enable = 1'b0;
-wire b_enable = 1'b0;
-wire o_enable = 1'b0;
+wire enable = ~KEY[2]; // not used
+wire pusle = ~KEY[3]; //pulse - go to next instruction
+wire a_enable = 1'b0; // not used atm
+wire b_enable = 1'b0; // not used atm
+wire o_enable = 1'b0; // not used atm
 
 reg latch_a_reg = 0;
 reg latch_b_reg = 0;
@@ -86,13 +86,11 @@ wire [1:0] program_selection = 2'b00; //default area of rectangle
 wire [7:0] instruction;
 reg [3:0] alu_instruction;
 
-wire updateReg;
-
 // Components
 
 clock_pulse clock_pulse_inst0(
     .clk(clk),
-    .btn(button),
+    .btn(pusle),
     .pulse(one_shot_clock)
 );
 
@@ -270,8 +268,7 @@ eight_bit_alu alu(
     .latch(latch_alu),
     .ALU_Sel(alu_instruction),
     .ALU_Out(alu_bus),
-    .CarryOut(LEDG[8]),
-    .updateReg(updateReg)
+    .CarryOut(LEDG[8])
 );
 
 // logic
